@@ -1,3 +1,18 @@
+public interface IUpdateableModel : INotifyPropertyChanged
+{
+	ModelState State { get; set; }
+	bool HasUnsavedChanges();
+	void ResetState();
+}
+    
+public enum ModelState
+{
+        New,
+        Unmodified,
+        Modified,
+        Deleted
+}
+
 public abstract class UpdateableModel : IUpdateableModel
 {
 	private static readonly MethodInfo SetPropertyMethod;
