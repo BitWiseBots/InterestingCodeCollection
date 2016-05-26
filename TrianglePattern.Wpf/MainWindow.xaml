@@ -6,10 +6,6 @@
         xmlns:local="clr-namespace:Sandbox.Wpf"
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="600">
-    <Canvas Name="drawingCanvas" Width="600" Height="600"  Background="White">
-        <Canvas.RenderTransform>
-            <ScaleTransform x:Name="st"/>
-        </Canvas.RenderTransform>
-    </Canvas>
+    <Canvas Name="drawingCanvas" Width="600" Height="600" MouseLeftButtonDown="DrawingCanvas_OnMouseLeftButtonDown" Background="White"/>
 
 </Window>
