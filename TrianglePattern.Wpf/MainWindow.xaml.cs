@@ -39,7 +39,7 @@ namespace Sandbox.Wpf
     public class PatternRenderer
     {
         private const double BaseLength = 1;
-        private const double ScaleFactor = 1.102;
+        private const double ScaleFactor = 1.2;
 
         private double _centerX;
         private double _centerY;
