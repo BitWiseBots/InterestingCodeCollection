@@ -1,0 +1,11 @@
+C:\Users\madillj\Documents\Visual Studio 2015\Projects\Sandbox\Sandbox\obj\Debug\Sandbox.Console.csprojResolveAssemblyReference.cache
+C:\Users\madillj\Documents\Visual Studio 2015\Projects\Sandbox\Sandbox\bin\Debug\nunit.framework.dll
+C:\Users\madillj\Documents\Visual Studio 2015\Projects\Sandbox\Sandbox\bin\Debug\nunit.framework.xml
+C:\Users\madillj\Documents\Visual Studio 2015\Projects\Sandbox\Sandbox\bin\Debug\FluentCommandLineParser.dll
+C:\Users\madillj\Documents\Visual Studio 2015\Projects\Sandbox\Sandbox\bin\Debug\FluentCommandLineParser.pdb
+C:\Users\madillj\Documents\Visual Studio 2015\Projects\Sandbox\Sandbox\bin\Debug\FluentCommandLineParser.xml
+C:\Users\madillj\Documents\Visual Studio 2015\Projects\Sandbox\Sandbox\bin\Debug\AllColors.exe.config
+C:\Users\madillj\Documents\Visual Studio 2015\Projects\Sandbox\Sandbox\bin\Debug\AllColors.exe
+C:\Users\madillj\Documents\Visual Studio 2015\Projects\Sandbox\Sandbox\bin\Debug\AllColors.pdb
+C:\Users\madillj\Documents\Visual Studio 2015\Projects\Sandbox\Sandbox\obj\Debug\AllColors.exe
+C:\Users\madillj\Documents\Visual Studio 2015\Projects\Sandbox\Sandbox\obj\Debug\AllColors.pdb
