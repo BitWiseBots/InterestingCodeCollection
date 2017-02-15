@@ -1,5 +1,4 @@
-﻿using Eka.Common.Core.Properties;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -7,7 +6,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-namespace Eka.Common.Core.Models
+namespace InterestingCodeCollection.UpdateableModel
 {
     public abstract class UpdateableModel : IUpdateableModel
     {

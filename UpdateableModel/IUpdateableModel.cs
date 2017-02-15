@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Eka.Common.Core.Models
+namespace InterestingCodeCollection.UpdateableModel
 {
     public interface IUpdateableModel : INotifyPropertyChanged
     {

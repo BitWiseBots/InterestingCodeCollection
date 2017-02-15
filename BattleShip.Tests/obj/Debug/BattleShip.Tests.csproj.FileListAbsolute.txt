@@ -1,0 +1,13 @@
+E:\Workspaces\InterstingCodeCollection\BattleShip.Tests\obj\Debug\BattleShip.Tests.csprojResolveAssemblyReference.cache
+E:\Workspaces\InterstingCodeCollection\BattleShip.Tests\bin\Debug\BattleShip.Tests.dll
+E:\Workspaces\InterstingCodeCollection\BattleShip.Tests\bin\Debug\BattleShip.Tests.pdb
+E:\Workspaces\InterstingCodeCollection\BattleShip.Tests\bin\Debug\BattleShip.exe
+E:\Workspaces\InterstingCodeCollection\BattleShip.Tests\bin\Debug\Castle.Core.dll
+E:\Workspaces\InterstingCodeCollection\BattleShip.Tests\bin\Debug\Moq.dll
+E:\Workspaces\InterstingCodeCollection\BattleShip.Tests\bin\Debug\nunit.framework.dll
+E:\Workspaces\InterstingCodeCollection\BattleShip.Tests\bin\Debug\BattleShip.pdb
+E:\Workspaces\InterstingCodeCollection\BattleShip.Tests\bin\Debug\Castle.Core.xml
+E:\Workspaces\InterstingCodeCollection\BattleShip.Tests\bin\Debug\Moq.xml
+E:\Workspaces\InterstingCodeCollection\BattleShip.Tests\bin\Debug\nunit.framework.xml
+E:\Workspaces\InterstingCodeCollection\BattleShip.Tests\obj\Debug\BattleShip.Tests.dll
+E:\Workspaces\InterstingCodeCollection\BattleShip.Tests\obj\Debug\BattleShip.Tests.pdb

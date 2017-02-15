@@ -1,0 +1,6 @@
+E:\Workspaces\InterstingCodeCollection\BattleShip\bin\Debug\BattleShip.exe.config
+E:\Workspaces\InterstingCodeCollection\BattleShip\bin\Debug\BattleShip.exe
+E:\Workspaces\InterstingCodeCollection\BattleShip\bin\Debug\BattleShip.pdb
+E:\Workspaces\InterstingCodeCollection\BattleShip\obj\Debug\BattleShip.csprojResolveAssemblyReference.cache
+E:\Workspaces\InterstingCodeCollection\BattleShip\obj\Debug\BattleShip.exe
+E:\Workspaces\InterstingCodeCollection\BattleShip\obj\Debug\BattleShip.pdb

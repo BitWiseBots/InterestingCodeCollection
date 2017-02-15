@@ -1,4 +1,4 @@
-﻿namespace Eka.Common.Core.Models
+﻿namespace InterestingCodeCollection.UpdateableModel
 {
     public enum ModelState
     {

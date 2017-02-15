@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Eka.Common.Core.Models
+namespace InterestingCodeCollection.UpdateableModel
 {
     public static class UpdateableModelExtensions
     {
