@@ -1,4 +1,4 @@
-# InterstingCodeCollection
+# InterestingCodeCollection
 A collection interesting code and helpful utilities that I've written over the years.
 
 ## All Colors
