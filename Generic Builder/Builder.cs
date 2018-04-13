@@ -80,13 +80,52 @@ namespace Builders
         /// </summary>
         /// <typeparam name="T2">The type of the property being accessed.</typeparam>
         /// <param name="expression">An expression that specifies which property is being set within the constructor.</param>
-        /// <returns>The value that was set for a call to <see cref="M:With"/> using the same <paramref name="expression"/>.</returns>
+        /// <returns>The value that was set for a call to <see cref="M:With"/> using the same <paramref name="expression"/>, or <c>default(T2)</c> if none was set.</returns>
         public T2 From<T2>(Expression<Func<T, T2>> expression)
         {
             var propertyKey = GetPropertyPath(expression);
+
+            if (!_withExpressions.ContainsKey(propertyKey))
+            {
+                return default(T2);
+            }
+
             var withExpression = _withExpressions[propertyKey];
             withExpression.HasBeenUsed = true;
             return (T2)withExpression.Value;
+        }
+
+        /// <summary>
+        /// Use this method within <see cref="Builder{T}"/> to use values set using any of the <see cref="M:With"/> overloads within the constructor expression.
+        /// </summary>
+        /// <typeparam name="T2">The type of the property being accessed.</typeparam>
+        /// <param name="expression">An expression that specifies which property is being set within the constructor.</param>
+        /// <param name="defaultValueBuilder">A  <see cref="Builder{T2}"/> that will be used if a call to <see cref="M:With"/> was not made for the same <paramref name="expression"/>.</param>
+        /// <returns>The value that was set for a call to <see cref="M:With"/> using the same <paramref name="expression"/>.</returns>
+        public T2 From<T2>(Expression<Func<T, T2>> expression, Builder<T2> defaultValueBuilder)
+        {
+            return From(expression, defaultValueBuilder.Build());
+        }
+
+        /// <summary>
+        /// Use this method within <see cref="Builder{T}"/> to use values set using any of the <see cref="M:With"/> overloads within the constructor expression.
+        /// </summary>
+        /// <typeparam name="T2">The type of the property being accessed.</typeparam>
+        /// <param name="expression">An expression that specifies which property is being set within the constructor.</param>
+        /// <param name="defaultValue">A value that will be used if a call to <see cref="M:With"/> was not made for the same <paramref name="expression"/>.</param>
+        /// <returns>The value that was set for a call to <see cref="M:With"/> using the same <paramref name="expression"/>.</returns>
+        public T2 From<T2>(Expression<Func<T, T2>> expression, T2 defaultValue)
+        {
+            var propertyKey = GetPropertyPath(expression);
+
+            if (!_withExpressions.ContainsKey(propertyKey))
+            {
+                return defaultValue;
+            }
+
+            var withExpression = _withExpressions[propertyKey];
+            withExpression.HasBeenUsed = true;
+            return (T2) withExpression.Value;
         }
 
         /// <summary>
@@ -112,6 +151,11 @@ namespace Builders
             }
 
             return _data;
+        }
+
+        public static implicit operator T(Builder<T> builder)
+        {
+            return builder.Build();
         }
 
         //This method recurses from the right side of the expression to the left, once it reaches the first property it will either instantiate
@@ -153,8 +197,14 @@ namespace Builders
         /// </summary>
         private string GetPropertyPath(LambdaExpression expression)
         {
-            var mExpr = GetMemberExpression(expression);
-            return GetPropertyPathRecursively(mExpr);
+            var memberExpression = GetMemberExpression(expression);
+
+            if (memberExpression == null){
+
+                throw new Exception($"The provided expression contains an expression node type that is not supported: \n\tNode Type:\t{expression.Body.NodeType}\n\tBody:\t\t{expression.Body}.\nEnsure that the expression only contains property accessors.");
+
+            }
+            return GetPropertyPathRecursively(memberExpression);
         }
 
         /// <summary>
@@ -163,6 +213,17 @@ namespace Builders
         private string GetPropertyPathRecursively(MemberExpression expr)
         {
             var memberExpression = expr.Expression as MemberExpression;
+            if (memberExpression == null)
+            {
+                var paramExpression = expr.Expression as ParameterExpression;
+
+                //If the next expression in the chain is not a ParameterExpression then it is some other expression that we don't support.
+                if (paramExpression == null)
+                {
+                    throw new Exception($"The provided expression contains an expression node type that is not supported: \n\tNode Type:\t{expr.Expression.NodeType}\n\tBody:\t\t{expr.Expression}.\nEnsure that the expression only contains property accessors.");
+                }
+            }
+
             var parent = memberExpression != null ? GetPropertyPathRecursively(memberExpression) : string.Empty;
 
             var current = expr.Member.Name;
@@ -184,7 +245,7 @@ namespace Builders
                 {
                     return Activator.CreateInstance<T>();
                 }
-                throw new Exception("No Parameterless Constructor present, use new DataBuilder<T>(object => object.Param1) constructor.");
+                throw new Exception($"No Parameterless Constructor present on type {typeof(T).FullName}.\n Ensure a registration exists in an implementation of IBuilderFactoryRegistration.\n And that you are using BuilderFactory.Create<{typeof(T).Name}>().");
             }
 
             return _constructorExpression.Compile()(this);
@@ -193,7 +254,9 @@ namespace Builders
         private static MemberExpression GetMemberExpression(Expression expr)
         {
             var lambda = expr as LambdaExpression;
-            return lambda?.Body as MemberExpression;
+            var member = lambda?.Body as MemberExpression;
+            var unary = lambda?.Body as UnaryExpression;
+            return member ?? unary?.Operand as MemberExpression;
         }
 
         private class ExpressionRecord
