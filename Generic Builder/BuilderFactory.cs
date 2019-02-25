@@ -1,52 +1,41 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Reflection;
+using InterestingCodeCollection.GenericBuilder.Internal;
 
-namespace Builders
+namespace InterestingCodeCollection.GenericBuilder
 {
     /// <summary>
-    /// Creates <see cref="Builder{T}"/> for use in unit tests.
+    /// Creates <see cref="Builder{T}"/>s for use in unit tests.
     /// </summary>
     public static class BuilderFactory
     {
-        private static readonly Dictionary<string, LambdaExpression> BuilderRegistrations = new Dictionary<string, LambdaExpression>();
+		private static readonly MethodInfo CreateMethodInfo = typeof(BuilderFactory).GetMethods().Single(m => m.Name == nameof(Create) && m.IsGenericMethod && m.IsStatic);
 
-       /// <summary>
-       /// Finds all <see cref="IBuilderFactoryRegistration"/> implementations in the TestSupport assembly and calls <see cref="IBuilderFactoryRegistration.RegisterBuilders"/> on them.
-       /// </summary>
-       static BuilderFactory()
-       {
-           var builderRegistrations = Assembly.GetAssembly(typeof(BuilderFactory)).GetTypes().Where(t => typeof(IBuilderFactoryRegistration).IsAssignableFrom(t) && t.IsClass);
+        static BuilderFactory()
+        {
+            BuilderRegistrationsManager = Builders.BuilderRegistrationsManager.Instance;
+        }
 
-           foreach (var builderRegistration in builderRegistrations)
-           {
-               var registration = (IBuilderFactoryRegistration) Activator.CreateInstance(builderRegistration);
-               registration.RegisterBuilders();
-           }
-       }
+        internal static IBuilderRegistrationsManager BuilderRegistrationsManager { private get; set; }
 
-       /// <summary>
-       /// Creates a <see cref="Builder{T}"/> for the provided type, uses a Constructor Expression if one was registered with <see cref="RegisterBuilder{T}"/>.
-       /// </summary>
-       /// <typeparam name="T">The type to be built.</typeparam>
-       public static Builder<T> Create<T>()
-       {
-           return BuilderRegistrations.ContainsKey(typeof(T).Name)
-               ? new Builder<T>((Expression<Func<Builder<T>, T>>)BuilderRegistrations[typeof(T).Name])
-               : new Builder<T>();
-       }
+        /// <summary>
+        /// Creates a <see cref="Builder{T}"/> for the provided type, uses a Constructor Expression if one was registered with <see cref="Builders.BuilderRegistrationsManager"/>.
+        /// </summary>
+        /// <typeparam name="T">The type to be built.</typeparam>
+        public static IBuilder<T> Create<T>()
+        {
+            return new Builder<T>(BuilderRegistrationsManager.GetConstructorFunc<T>(), BuilderRegistrationsManager.GetPostBuildAction<T>(), BuilderRegistrationsManager.GetValueConversionFuncs<T>());
+        }
 
-       /// <summary>
-       /// Registers an expression to be used when constructing the <typeparamref name="T"/> instance.
-       /// </summary>
-       /// <typeparam name="T">The type to be built.</typeparam>
-       /// <param name="constructorExpression">An expression that will create a <see cref="T"/>. The passed in <see cref="Builder{T}"/> can be used to retrieve values for use in the constructor.</param>
-       /// <remarks>This method should be called from within a <see cref="IBuilderFactoryRegistration"/> implementation.</remarks>
-       public static void RegisterBuilder<T>(Expression<Func<Builder<T>, T>> constructorExpression)
-       {
-           BuilderRegistrations[typeof(T).Name] = constructorExpression;
-       }
+		/// <summary>
+		/// Creates a <see cref="Builder{T}"/> for the provided type variable using reflection and will use a Constructor Expression if one was registered
+		/// </summary>
+		/// <param name="typeToBuild">The type to be built.</param>
+        internal static object Create(Type typeToBuild)
+        {
+	        dynamic builder = CreateMethodInfo.MakeGenericMethod(typeToBuild).Invoke(null, new object[]{});
+	        return builder.Build();
+        }
     }
 }
