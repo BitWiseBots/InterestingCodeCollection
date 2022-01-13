@@ -1,3 +1,0 @@
-C:\Workspaces\InterestingCode\InterstingCodeCollection\AllColors\bin\Debug\AllColors.exe.config
-C:\Workspaces\InterestingCode\InterstingCodeCollection\AllColors\obj\Debug\AllColors.exe
-C:\Workspaces\InterestingCode\InterstingCodeCollection\AllColors\obj\Debug\AllColors.pdb
